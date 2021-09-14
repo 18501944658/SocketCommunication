@@ -29,6 +29,9 @@ public class SocketServer extends Thread {
         }
     }
 
+    /***
+     * 服务端监听连接得客户端,并不断读取客户端的数据输入
+     */
     @SneakyThrows
     @Override
     public void run() {
@@ -36,17 +39,24 @@ public class SocketServer extends Thread {
 
         log.info("等待客户端链接。。。。。。。。");
 
-        socket = serverSocket.accept();
-        new SendMessageServer().start();
-        log.info("客户端(" + socket.getInetAddress().getHostAddress() + ") 连接成功。。。。");
-        InputStream in = socket.getInputStream();
-        int len = 0;
-        byte[] buf = new byte[1024];
-        while ((len = in.read(buf)) != -1) {
-            log.info("客户端：(" + socket.getInetAddress().getHostAddress() + ")说：" + new String(buf, 0, len, "UTF-8"));
+        try {
+            socket = serverSocket.accept();
+            new SendMessageServer().start();
+            log.info("客户端(" + socket.getInetAddress().getHostAddress() + ") 连接成功。。。。");
+            InputStream in = socket.getInputStream();
+            int len = 0;
+            byte[] buf = new byte[1024];
+            while ((len = in.read(buf)) != -1) {
+                log.info("客户端：(" + socket.getInetAddress().getHostAddress() + ")说：" + new String(buf, 0, len, "UTF-8"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
+    /***
+     * 服务端不断响应数据给客户端，输出流
+     */
     class SendMessageServer extends Thread {
         @Override
         public void run() {

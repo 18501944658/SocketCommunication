@@ -8,6 +8,9 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
+/***
+ * 客户端
+ */
 @Slf4j
 public class SocketClient extends Thread {
 
@@ -21,6 +24,10 @@ public class SocketClient extends Thread {
         }
     }
 
+    /****
+     *
+     *  客户端线程进行输入流得读取,即客户端发送来得消息得进行循环读取
+     */
     @Override
     public void run() {
         new SendMessageClient().start();
@@ -37,6 +44,9 @@ public class SocketClient extends Thread {
         }
     }
 
+    /*****
+     * 客户端写出数据到客户端实时监听
+     */
     class SendMessageClient extends Thread {
         @Override
         public void run() {
