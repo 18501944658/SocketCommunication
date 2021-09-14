@@ -37,7 +37,7 @@ public class SocketServer extends Thread {
         log.info("等待客户端链接。。。。。。。。");
 
         socket = serverSocket.accept();
-        new SendMessage().start();
+        new SendMessageServer().start();
         log.info("客户端(" + socket.getInetAddress().getHostAddress() + ") 连接成功。。。。");
         InputStream in = socket.getInputStream();
         int len = 0;
@@ -47,7 +47,7 @@ public class SocketServer extends Thread {
         }
     }
 
-    class SendMessage extends Thread {
+    class SendMessageServer extends Thread {
         @Override
         public void run() {
             super.run();

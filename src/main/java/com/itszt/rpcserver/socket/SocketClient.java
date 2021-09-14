@@ -23,7 +23,7 @@ public class SocketClient extends Thread {
 
     @Override
     public void run() {
-        new SendMessage().start();
+        new SendMessageClient().start();
         super.run();
         try {
             InputStream s = socket.getInputStream();
@@ -37,7 +37,7 @@ public class SocketClient extends Thread {
         }
     }
 
-    class SendMessage extends Thread {
+    class SendMessageClient extends Thread {
         @Override
         public void run() {
             super.run();
@@ -45,10 +45,12 @@ public class SocketClient extends Thread {
             OutputStream os = null;
             String in = "";
             try {
+                scanner = new Scanner(System.in);
+                os = socket.getOutputStream();
                 do {
-                    in = scanner.next();
-                    os.write(("" + in).getBytes());
-                    os.flush();
+                        in = scanner.next();
+                            os.write(("" + in).getBytes());
+                        os.flush();
 
                 } while (!in.equals("bye"));
             } catch (IOException e) {
